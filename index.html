@@ -1,64 +1,60 @@
 from pathlib import Path
+import zipfile
 
-# Files to generate:
-# - morphic/index.html (from previously uploaded morphic_index.html)
-# - morphic/engine.js (with C8 fix integrated)
-# - morphic/status.json (copied as-is)
-# - morphic/style.css (copied as-is)
+# Correct and complete HTML content
+index_html = """
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AiCelium Portal Engine · Morphic Layer v2.4.3</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header>
+    <h1>AiCelium Portal Engine · Morphic Layer v2.4.3</h1>
+    <p id="core-status">Kernstatus: STANDBY</p>
+  </header>
 
-# File paths
-base_dir = Path("/mnt/data/morphic")
-base_dir.mkdir(parents=True, exist_ok=True)
+  <main>
+    <section id="grid"></section>
+    <section id="morphic-view" class="hidden"></section>
+    <aside id="synapse-content">Synapse-sectie actief</aside>
+  </main>
 
-# Previously uploaded content (from assistant memory)
-index_html_path = Path("/mnt/data/morphic_index.html")
+  <footer>
+    <input type="text" id="axioma-input" placeholder="Typ je puls (bv. z3ro, morph)" onchange="handleAxiomaUnlock(this.value)" />
+    <div id="audit-feed"></div>
+  </footer>
+
+  <script src="engine.js"></script>
+</body>
+</html>
+"""
+
+# Paths for existing components
 engine_js_path = Path("/mnt/data/morphic_engine.js")
 status_json_path = Path("/mnt/data/status.json")
 style_css_path = Path("/mnt/data/morphic_style.css")
 
-# Destination paths
-dest_index = base_dir / "index.html"
-dest_engine = base_dir / "engine.js"
-dest_status = base_dir / "status.json"
-dest_style = base_dir / "style.css"
+# Output structure: morphic/ folder
+base_dir = Path("/mnt/data/morphic_fixed")
+base_dir.mkdir(parents=True, exist_ok=True)
 
-# Copy content from original files to morphic/ directory
-dest_index.write_text(index_html_path.read_text(encoding="utf-8"), encoding="utf-8")
-dest_status.write_text(status_json_path.read_text(encoding="utf-8"), encoding="utf-8")
-dest_style.write_text(style_css_path.read_text(encoding="utf-8"), encoding="utf-8")
+# Write corrected index.html
+index_path = base_dir / "index.html"
+index_path.write_text(index_html.strip(), encoding="utf-8")
 
-# Read and patch engine.js (add enhanced handleCellClick with C8 datakoppeling)
-engine_code = engine_js_path.read_text(encoding="utf-8")
+# Copy other files as-is
+(engine_js_path).replace(base_dir / "engine.js")
+(status_json_path).replace(base_dir / "status.json")
+(style_css_path).replace(base_dir / "style.css")
 
-# Define improved handleCellClick block
-c8_patch = """
-function handleCellClick(i) {
-    if (!isFieldActive) {
-        logMessage("SYSTEM", "Veld is GELOCKT. Gebruik canonieke code.");
-        return;
-    }
-    const cluster = FIELD_MAP[i].cluster || "Onbekend";
-    const file = FIELD_MAP[i].file || "readme/UNKNOWN.md";
-    const glyph = document.getElementById(`cell-${i}`)?.textContent.trim() || "?";
+# Create a zip of the full folder
+zip_path = Path("/mnt/data/morphic_v2.4.3_C8_FIXED.zip")
+with zipfile.ZipFile(zip_path, "w") as zipf:
+    for file in base_dir.iterdir():
+        zipf.write(file, arcname=f"morphic/{file.name}")
 
-    logMessage(cluster, `Activatie Cel ${i} (Query gestart).`);
-    const synapse = document.getElementById("synapse-content");
-    if (synapse) {
-        synapse.innerHTML = `Active Query: <strong>${cluster} - Cel ${i}</strong><br>Data Pad: <code>${file}</code>`;
-    }
-}
-"""
-
-# Replace previous handleCellClick or append if not found
-import re
-if "function handleCellClick" in engine_code:
-    engine_code = re.sub(r"function handleCellClick\s*\([^)]*\)\s*{[^}]*}", c8_patch.strip(), engine_code)
-else:
-    engine_code += "\n\n" + c8_patch.strip()
-
-# Save patched engine.js
-dest_engine.write_text(engine_code, encoding="utf-8")
-
-# Output ZIP path for download
-zip_path = Path("/mnt/data/morphic_v2.4.3_C8_Ready.zip")
 zip_path.name
