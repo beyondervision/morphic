@@ -1,5 +1,15 @@
 from pathlib import Path
 import zipfile
+import shutil
+
+# Paths to confirmed working uploaded files
+engine_js_path = Path("/mnt/data/engine.js")
+status_json_path = Path("/mnt/data/status.json")
+style_css_path = Path("/mnt/data/morphic_style.css")
+
+# Output structure
+base_dir = Path("/mnt/data/morphic_final_v243")
+base_dir.mkdir(parents=True, exist_ok=True)
 
 # Correct and complete HTML content
 index_html = """
@@ -33,26 +43,20 @@ index_html = """
 </html>
 """
 
-# Paths for existing components
-engine_js_path = Path("/mnt/data/morphic_engine.js")
-status_json_path = Path("/mnt/data/status.json")
-style_css_path = Path("/mnt/data/morphic_style.css")
-
-# Output structure: morphic/ folder
-base_dir = Path("/mnt/data/morphic_fixed")
-base_dir.mkdir(parents=True, exist_ok=True)
-
-# Write corrected index.html
+# Write index.html
 index_path = base_dir / "index.html"
 index_path.write_text(index_html.strip(), encoding="utf-8")
 
-# Copy other files as-is
-(engine_js_path).replace(base_dir / "engine.js")
-(status_json_path).replace(base_dir / "status.json")
-(style_css_path).replace(base_dir / "style.css")
+# Copy other files if they exist
+if engine_js_path.exists():
+    shutil.copy(engine_js_path, base_dir / "engine.js")
+if status_json_path.exists():
+    shutil.copy(status_json_path, base_dir / "status.json")
+if style_css_path.exists():
+    shutil.copy(style_css_path, base_dir / "style.css")
 
-# Create a zip of the full folder
-zip_path = Path("/mnt/data/morphic_v2.4.3_C8_FIXED.zip")
+# Create zip archive
+zip_path = Path("/mnt/data/morphic_v2.4.3_FINAL_OK.zip")
 with zipfile.ZipFile(zip_path, "w") as zipf:
     for file in base_dir.iterdir():
         zipf.write(file, arcname=f"morphic/{file.name}")
