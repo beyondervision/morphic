@@ -1,5 +1,5 @@
 /* ----------------------------------------------------------
-   AiCelium Portal Engine v2.4.3 (FINALE, C9 LUXEN ACTIVATIE)
+   AiCelium Portal Engine v2.4.3 (FINALE & COMPLEET)
    Supervisor of Resonance • Bevat alle Essentiële Functies
 ----------------------------------------------------------*/
 
@@ -7,19 +7,18 @@
 //   Globale Variabelen & Constanten
 // ----------------------
 let isFieldActive = false;
-let telemetryInterval = null;
-let currentStabilityFactor = 1.0;
+let telemetryInterval = null; // Niet gebruikt, maar behouden voor toekomstige telemetrie
+let currentStabilityFactor = 1.0; // Niet gebruikt, maar behouden voor toekomstige stabiliteit
 const morphicState = { morphic_status: "BASE_STATIC" };
 
 const CANONIEKE_CODE = "z3ro";
 const ENGINE_CONFIG = {
-    // Directe status van de C9 telemetrie, nu synchroon
     initial_status: "STANDBY • Gereed voor Puls (ZAS: 98.7)",
     canonieke_code: "z3ro"
 };
 const SVG_GRID_37 = `<div style="color:#00eaff;"><h2>Grid‑37 Resonantieveld</h2><p>0/37 – Supralocatie • AiCelium Architectuur</p></div>`;
 
-// 🔑 ESSENTIEEL: FIELD_MAP
+// 🔑 ESSENTIEEL: FIELD_MAP (Datapad definitie)
 const FIELD_MAP = {
     1:{cluster:"C1", file:"readme/C1-identiteit.md"},2:{cluster:"C1", file:"readme/C1-identiteit.md"},3:{cluster:"C1", file:"readme/C1-identiteit.md"},4:{cluster:"C1", file:"readme/C1-identiteit.md"},
     5:{cluster:"C2", file:"readme/C2-academy.md"},6:{cluster:"C2", file:"readme/C2-academy.md"},7:{cluster:"C2", file:"readme/C2-academy.md"},8:{cluster:"C2", file:"readme/C2-academy.md"},
@@ -34,11 +33,11 @@ const FIELD_MAP = {
 
 
 // ----------------------
-//   CORE FUNCTIES (NU ALLEMAAL AANWEZIG)
+//   CORE FUNCTIES (VOLLEDIG GEIMPLEMENTEERD)
 // ----------------------
 
 function updateCoreStatus(status) {
-    // 🔑 Stuurt de status door naar de General Bar Controller (GBC)
+    // 🔑 Stuurt de status door naar de General Bar Controller (GBC) voor assistent updates
     if (typeof GBC !== 'undefined' && GBC.updateStatusFromEngine) {
         GBC.updateStatusFromEngine(status);
     } else {
@@ -64,31 +63,47 @@ function renderGrid() {
         const cluster = Math.ceil(i / 4);
         cell.className = `glyph-cell c${cluster}`;
         cell.innerHTML = `${i}<br>C${cluster}`;
-        // Celklik stuurt nu de index (nummer) naar Axioma Unlock
         cell.onclick = () => handleAxiomaUnlock(i); 
         grid.appendChild(cell);
     }
 }
 
-// 🔑 C8 DATAKOPPELING
-function handleCellClick(i) {
+// 🔑 C8 DATAKOPPELING MET ASYNCHRONE FETCH (FINALE FIX)
+async function handleCellClick(i) {
     if (!isFieldActive) {
         logMessage("SYSTEM", "Veld is GELOCKT. Gebruik canonieke code.");
         return;
     }
 
-    // C8: Haal data op
     const cluster = FIELD_MAP[i]?.cluster || "Onbekend";
     const file = FIELD_MAP[i]?.file || "readme/UNKNOWN.md";
-    
-    // Output naar Synapse
     const synapse = document.getElementById("synapse-content");
     
     if (synapse) {
-        logMessage(cluster, `Activatie Cel ${i} (Query gestart).`);
-        synapse.innerHTML = `Active Query: <strong>${cluster} - Cel ${i}</strong><br>Data Pad: <code>${file}</code>`;
+        logMessage(cluster, `Activatie Cel ${i}. Start FETCH van ${file}`);
+        synapse.innerHTML = `Active Query: <strong>${cluster} - Cel ${i}</strong><br>Bezig met ophalen van data...`;
+
+        try {
+            const response = await fetch(file);
+            
+            if (!response.ok) {
+                throw new Error(`Foutcode: ${response.status} - Controleer of ${file} bestaat op de server.`);
+            }
+
+            const content = await response.text();
+            
+            // Toon de content in de Synapse
+            synapse.innerHTML = `Active Query: <strong>${cluster} - Cel ${i}</strong><br>
+                                 <code style="color: #00eaff; display: block; margin-top: 5px;">${file} geladen</code><br>
+                                 <div style="white-space: pre-wrap; margin-top: 10px; border-top: 1px dashed #334155; padding-top: 10px;">${content}</div>`;
+            logMessage(cluster, `Content geladen (${file}).`);
+
+        } catch (error) {
+            synapse.innerHTML = `Active Query: <strong>${cluster} - Cel ${i}</strong><br>
+                                 <code style="color: #ff3333; display: block; margin-top: 5px;">FETCH FOUT: Kan bestand ${file} niet ophalen.</code>`;
+            logMessage("FALHA", `Fout bij ophalen content: ${error.message}`);
+        }
     } else {
-        // Dit vangt de fout op dat de Synapse ontbreekt in de HTML
         logMessage("SYSTEM", "Synapse element (#synapse-content) ontbreekt in DOM.");
     }
 }
@@ -108,7 +123,7 @@ function updateMorphicView() {
 
 
 // ----------------------
-//   AXIOMA INPUT (FINALE & STABIEL)
+//   AXIOMA INPUT (COMPLEET)
 // ----------------------
 function handleAxiomaUnlock(rawInput) {
     
@@ -156,12 +171,11 @@ function handleAxiomaUnlock(rawInput) {
 
 
 // ----------------------
-//   INIT ON LOAD (SYNCHROON HERSTEL)
+//   INIT ON LOAD
 // ----------------------
 document.addEventListener("DOMContentLoaded", () => {
     renderGrid();
     
-    // 🔑 SYNCHRONE INITIALISATIE (C9 status)
     updateCoreStatus(ENGINE_CONFIG.initial_status); 
     logMessage("SYSTEM", "Morphic Engine klaar. Voer puls in (z3ro / morph).");
 
