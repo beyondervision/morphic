@@ -1,5 +1,5 @@
 /* ----------------------------------------------------------
-   AiCelium Portal Engine v2.4.3 (FINALE, C8 GEINTEGREERD)
+   AiCelium Portal Engine v2.4.3 (FINALE, C9 LUXEN ACTIVATIE)
    Supervisor of Resonance • Bevat alle Essentiële Functies
 ----------------------------------------------------------*/
 
@@ -19,7 +19,7 @@ const ENGINE_CONFIG = {
 };
 const SVG_GRID_37 = `<div style="color:#00eaff;"><h2>Grid‑37 Resonantieveld</h2><p>0/37 – Supralocatie • AiCelium Architectuur</p></div>`;
 
-// 🔑 ESSENTIEEL: FIELD_MAP moet bovenaan staan voor gebruik in handleCellClick
+// 🔑 ESSENTIEEL: FIELD_MAP
 const FIELD_MAP = {
     1:{cluster:"C1", file:"readme/C1-identiteit.md"},2:{cluster:"C1", file:"readme/C1-identiteit.md"},3:{cluster:"C1", file:"readme/C1-identiteit.md"},4:{cluster:"C1", file:"readme/C1-identiteit.md"},
     5:{cluster:"C2", file:"readme/C2-academy.md"},6:{cluster:"C2", file:"readme/C2-academy.md"},7:{cluster:"C2", file:"readme/C2-academy.md"},8:{cluster:"C2", file:"readme/C2-academy.md"},
@@ -38,8 +38,13 @@ const FIELD_MAP = {
 // ----------------------
 
 function updateCoreStatus(status) {
-    const el = document.getElementById("core-status");
-    if (el) el.textContent = status;
+    // 🔑 Stuurt de status door naar de General Bar Controller (GBC)
+    if (typeof GBC !== 'undefined' && GBC.updateStatusFromEngine) {
+        GBC.updateStatusFromEngine(status);
+    } else {
+        const el = document.getElementById("core-status");
+        if (el) el.textContent = status;
+    }
 }
 
 function logMessage(source, message) {
@@ -125,6 +130,11 @@ function handleAxiomaUnlock(rawInput) {
           "HYBRID_NODES" : "BASE_STATIC";
         updateMorphicView();
         logMessage("LUMIN_AGENT", `State: ${morphicState.morphic_status}`);
+        
+        // 🔑 LUXEN ACTIVATIE & BERICHT
+        if (typeof GBC !== 'undefined' && GBC.activateLuxen) {
+            GBC.activateLuxen("Welkom in de Morphic Layer. Hoe kan ik u begeleiden?");
+        }
         return;
     }
 
