@@ -1,16 +1,17 @@
-body {
-  font-family: monospace;
-  background: #0f172a;
-  color: #e2e8f0;
-  padding: 2rem;
-}
+/* In style.css (Vervang de .glyph-cell en #grid secties) */
+
 #grid {
   display: grid;
-  grid-template-columns: repeat(6, 1fr);
+  grid-template-columns: repeat(6, 1fr); /* Zorgt voor 6 kolommen */
   gap: 8px;
+  /* 🔑 CSS FIX: Max breedte toevoegen om de blokken te beperken */
+  max-width: 600px; 
+  margin: 20px auto;
 }
+
 .glyph-cell {
-  aspect-ratio: 1 / 1;
+  /* ... (rest van de stijl) ... */
+  aspect-ratio: 1 / 1; 
   display: flex;
   align-items: center;
   justify-content: center;
@@ -20,22 +21,5 @@ body {
   font-weight: bold;
   cursor: pointer;
   text-align: center;
-}
-.hidden {
-  display: none;
-}
-#axioma-input {
-  padding: 0.5rem;
-  margin-top: 1rem;
-  font-size: 1rem;
-}
-ul#audit-feed {
-  margin-top: 2rem;
-  list-style: none;
-  padding: 0;
-}
-#audit-feed li {
-  padding: 4px;
-  font-size: 0.9rem;
-  border-bottom: 1px solid #334155;
+  font-size: 10px; /* Maak het lettertype iets kleiner */
 }
