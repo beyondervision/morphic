@@ -1,25 +1,25 @@
 /* ----------------------------------------------------------
-   AiCelium Portal Engine v2.4.3 (FINALE, C8 DATAKOPPELING)
+   AiCelium Portal Engine v2.4.3 (FINALE, C8 GEINTEGREERD)
    Supervisor of Resonance • Bevat alle Essentiële Functies
 ----------------------------------------------------------*/
 
 // ----------------------
 //   Globale Variabelen & Constanten
 // ----------------------
-[cite_start]let isFieldActive = false; [cite: 1]
-[cite_start]let telemetryInterval = null; [cite: 2]
+let isFieldActive = false;
+let telemetryInterval = null;
 let currentStabilityFactor = 1.0;
 const morphicState = { morphic_status: "BASE_STATIC" };
 
-[cite_start]const CANONIEKE_CODE = "z3ro"; [cite: 2]
+const CANONIEKE_CODE = "z3ro";
 const ENGINE_CONFIG = {
     // Directe status van de C9 telemetrie, nu synchroon
-    [cite_start]initial_status: "STANDBY • Gereed voor Puls (ZAS: 98.7)", [cite: 3]
-    [cite_start]canonieke_code: "z3ro" [cite: 3]
+    initial_status: "STANDBY • Gereed voor Puls (ZAS: 98.7)",
+    canonieke_code: "z3ro"
 };
-[cite_start]const SVG_GRID_37 = `<div style="color:#00eaff;"><h2>Grid‑37 Resonantieveld</h2><p>0/37 – Supralocatie • AiCelium Architectuur</p></div>`; [cite: 4]
+const SVG_GRID_37 = `<div style="color:#00eaff;"><h2>Grid‑37 Resonantieveld</h2><p>0/37 – Supralocatie • AiCelium Architectuur</p></div>`;
 
-// 🔑 ESSENTIEEL: FIELD_MAP voor C8 Datakoppeling
+// 🔑 ESSENTIEEL: FIELD_MAP moet bovenaan staan voor gebruik in handleCellClick
 const FIELD_MAP = {
     1:{cluster:"C1", file:"readme/C1-identiteit.md"},2:{cluster:"C1", file:"readme/C1-identiteit.md"},3:{cluster:"C1", file:"readme/C1-identiteit.md"},4:{cluster:"C1", file:"readme/C1-identiteit.md"},
     5:{cluster:"C2", file:"readme/C2-academy.md"},6:{cluster:"C2", file:"readme/C2-academy.md"},7:{cluster:"C2", file:"readme/C2-academy.md"},8:{cluster:"C2", file:"readme/C2-academy.md"},
@@ -34,45 +34,45 @@ const FIELD_MAP = {
 
 
 // ----------------------
-//   CORE FUNCTIES (UPDATE: C8 LOGICA)
+//   CORE FUNCTIES (NU ALLEMAAL AANWEZIG)
 // ----------------------
 
 function updateCoreStatus(status) {
     const el = document.getElementById("core-status");
-    [cite_start]if (el) el.textContent = status; [cite: 6]
+    if (el) el.textContent = status;
 }
 
 function logMessage(source, message) {
     const feed = document.getElementById("audit-feed");
     if (!feed) return;
-    [cite_start]const li = document.createElement("li"); [cite: 7]
+    const li = document.createElement("li");
     li.textContent = `[${source}] • ${message}`;
-    [cite_start]feed.insertBefore(li, feed.firstChild); [cite: 7]
+    feed.insertBefore(li, feed.firstChild);
 }
 
 function renderGrid() {
     const grid = document.getElementById("grid");
     if (!grid) return logMessage("SYSTEM", "Grid element ontbreekt.");
     grid.innerHTML = "";
-    [cite_start]for (let i = 1; i <= 36; i++) { [cite: 9]
+    for (let i = 1; i <= 36; i++) {
         const cell = document.createElement("div");
-        [cite_start]const cluster = Math.ceil(i / 4); [cite: 10]
+        const cluster = Math.ceil(i / 4);
         cell.className = `glyph-cell c${cluster}`;
         cell.innerHTML = `${i}<br>C${cluster}`;
-        // Celklik stuurt nu de index (nummer)
-        [cite_start]cell.onclick = () => handleAxiomaUnlock(i); [cite: 11]
-        [cite_start]grid.appendChild(cell); [cite: 12]
+        // Celklik stuurt nu de index (nummer) naar Axioma Unlock
+        cell.onclick = () => handleAxiomaUnlock(i); 
+        grid.appendChild(cell);
     }
 }
 
-// 🔑 C8 DATAKOPPELING (Vervangt de STUB)
+// 🔑 C8 DATAKOPPELING
 function handleCellClick(i) {
     if (!isFieldActive) {
         logMessage("SYSTEM", "Veld is GELOCKT. Gebruik canonieke code.");
         return;
     }
 
-    // C8: Haal data op (gebruikt veilige chaining ?)
+    // C8: Haal data op
     const cluster = FIELD_MAP[i]?.cluster || "Onbekend";
     const file = FIELD_MAP[i]?.file || "readme/UNKNOWN.md";
     
@@ -83,23 +83,22 @@ function handleCellClick(i) {
         logMessage(cluster, `Activatie Cel ${i} (Query gestart).`);
         synapse.innerHTML = `Active Query: <strong>${cluster} - Cel ${i}</strong><br>Data Pad: <code>${file}</code>`;
     } else {
+        // Dit vangt de fout op dat de Synapse ontbreekt in de HTML
         logMessage("SYSTEM", "Synapse element (#synapse-content) ontbreekt in DOM.");
     }
 }
 
-
 function updateMorphicView() {
-    [cite_start]const grid = document.getElementById("grid"); [cite: 14]
-    [cite_start]const morph = document.getElementById("morphic-view"); [cite: 14]
+    const grid = document.getElementById("grid");
+    const morph = document.getElementById("morphic-view");
     if (!grid || !morph) return logMessage("SYSTEM", "Morphic DOM ontbreekt.");
     const active = morphicState.morphic_status === "HYBRID_NODES";
     
-    [cite_start]// Toggle van de visuele weergave [cite: 15]
     grid.classList.toggle("hidden", active);
     morph.classList.toggle("hidden", !active);
 
-    [cite_start]if (active) morph.innerHTML = SVG_GRID_37; [cite: 16]
-    [cite_start]else morph.innerHTML = ""; [cite: 16]
+    if (active) morph.innerHTML = SVG_GRID_37;
+    else morph.innerHTML = "";
 }
 
 
@@ -108,22 +107,22 @@ function updateMorphicView() {
 // ----------------------
 function handleAxiomaUnlock(rawInput) {
     
-    // Als input een nummer is (van celklik), stuur naar C8 stub
+    // Als input een nummer is (van celklik), stuur naar C8
     if (typeof rawInput === 'number') {
         handleCellClick(rawInput);
-        [cite_start]return; [cite: 17]
+        return;
     }
 
     const pulse = String(rawInput).trim().toLowerCase();
     const inputElement = document.getElementById("axioma-input");
     
-    [cite_start]if (inputElement) inputElement.value = ""; [cite: 18]
+    if (inputElement) inputElement.value = "";
 
     // PULS: morph
     if (pulse === "morph" && isFieldActive) {
         morphicState.morphic_status =
-          [cite_start]morphicState.morphic_status === "BASE_STATIC" ? [cite: 19]
-          [cite_start]"HYBRID_NODES" : "BASE_STATIC"; [cite: 19]
+          morphicState.morphic_status === "BASE_STATIC" ?
+          "HYBRID_NODES" : "BASE_STATIC";
         updateMorphicView();
         logMessage("LUMIN_AGENT", `State: ${morphicState.morphic_status}`);
         return;
@@ -132,16 +131,16 @@ function handleAxiomaUnlock(rawInput) {
     // PULS: Z3RO (FASE 1 BEVEILIGING)
     if (pulse === CANONIEKE_CODE && !isFieldActive) {
         isFieldActive = true;
-        [cite_start]updateCoreStatus("RESONANT (HERSTELD)"); [cite: 20]
+        updateCoreStatus("RESONANT (HERSTELD)");
         logMessage("SYSTEM", `Canonieke code ${CANONIEKE_CODE.toUpperCase()} geaccepteerd.`);
         return;
     }
 
     // Ongeldige pulsen
     if (pulse === "salute") {
-        [cite_start]logMessage("SYSTEM", `Toegang geweigerd. Gebruik Canonieke code: ${CANONIEKE_CODE.toUpperCase()}`); [cite: 21]
-    [cite_start]} else if (pulse) { // Log alleen als de puls niet leeg is [cite: 21]
-        [cite_start]logMessage("SYSTEM", `Ongeldige puls: ${pulse}`); [cite: 22]
+        logMessage("SYSTEM", `Toegang geweigerd. Gebruik Canonieke code: ${CANONIEKE_CODE.toUpperCase()}`);
+    } else if (pulse) { // Log alleen als de puls niet leeg is
+        logMessage("SYSTEM", `Ongeldige puls: ${pulse}`);
     }
 }
 
@@ -153,7 +152,7 @@ document.addEventListener("DOMContentLoaded", () => {
     renderGrid();
     
     // 🔑 SYNCHRONE INITIALISATIE (C9 status)
-    [cite_start]updateCoreStatus(ENGINE_CONFIG.initial_status); [cite: 3] 
+    updateCoreStatus(ENGINE_CONFIG.initial_status); 
     logMessage("SYSTEM", "Morphic Engine klaar. Voer puls in (z3ro / morph).");
 
     // Enter Key Puls afhandeling
@@ -162,5 +161,5 @@ document.addEventListener("DOMContentLoaded", () => {
         input.addEventListener("keydown", (e) => {
             if (e.key === "Enter") handleAxiomaUnlock(input.value);
         });
-    [cite_start]} [cite: 23]
+    }
 });
