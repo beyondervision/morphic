@@ -18,19 +18,19 @@ const ENGINE_CONFIG = {
 };
 const SVG_GRID_37 = `<div style="color:#00eaff;"><h2>Grid‑37 Resonantieveld</h2><p>0/37 – Supralocatie • AiCelium Architectuur</p></div>`;
 
-// 🔑 ESSENTIEEL: FIELD_MAP (Datapad definitie)
+// 🔑 ESSENTIEEL: FIELD_MAP (DEFINITIEF GESYNCHRONISEERD)
 const FIELD_MAP = {
     1:{cluster:"C1", file:"readme/C1-identiteit.md"},2:{cluster:"C1", file:"readme/C1-identiteit.md"},3:{cluster:"C1", file:"readme/C1-identiteit.md"},4:{cluster:"C1", file:"readme/C1-identiteit.md"},
     5:{cluster:"C2", file:"readme/C2-academy.md"},6:{cluster:"C2", file:"readme/C2-academy.md"},7:{cluster:"C2", file:"readme/C2-academy.md"},8:{cluster:"C2", file:"readme/C2-academy.md"},
     9:{cluster:"C3", file:"readme/C3-telemetry.md"},10:{cluster:"C3", file:"readme/C3-telemetry.md"},11:{cluster:"C3", file:"readme/C3-telemetry.md"},12:{cluster:"C3", file:"readme/C3-telemetry.md"},
-    13:{cluster:"C4", file:"readme/C4-spiegelveld.md"},14:{cluster:"C4", file:"readme/C4-spiegelveld.md"},15:{cluster:"C4", file:"readme/C4-spiegelveld.md"},16:{cluster:"C4", file:"readme/C4-spiegelveld.md"},
-    17:{cluster:"C5", file:"readme/C5-ai_interactie.md"},18:{cluster:"C5", file:"readme/C5-ai_interactie.md"},19:{cluster:"C5", file:"readme/C5-ai_interactie.md"},20:{cluster:"C5", file:"readme/C5-ai_interactie.md"},
-    21:{cluster:"C6", file:"readme/C6-gateway.md"},22:{cluster:"C6", file:"readme/C6-gateway.md"},23:{cluster:"C6", file:"readme/C6-gateway.md"},24:{cluster:"C6", file:"readme/C6-gateway.md"},
-    25:{cluster:"C7", file:"readme/C7-pulse_chain.md"},26:{cluster:"C7", file:"readme/C7-pulse_chain.md"},27:{cluster:"C7", file:"readme/C7-pulse_chain.md"},28:{cluster:"C7", file:"readme/C7-pulse_chain.md"},
-    29:{cluster:"C8", file:"readme/C8-semantisch_veld.md"},30:{cluster:"C8", file:"readme/C8-semantisch_veld.md"},31:{cluster:"C8", file:"readme/C8-semantisch_veld.md"},32:{cluster:"C8", file:"readme/C8-semantisch_veld.md"},
-    33:{cluster:"C9", file:"readme/C9-handbook_operatie.md"},34:{cluster:"C9", file:"readme/C9-handbook_operatie.md"},35:{cluster:"C9", file:"readme/C9-handbook_operatie.md"},36:{cluster:"C9", file:"readme/C9-handbook_operatie.md"}
+    // C4, C5, C6, C7, C8, C9 zijn nu gefixt naar de geüploade namen
+    13:{cluster:"C4", file:"readme/C4-debeyonder-com.md"},14:{cluster:"C4", file:"readme/C4-debeyonder-com.md"},15:{cluster:"C4", file:"readme/C4-debeyonder-com.md"},16:{cluster:"C4", file:"readme/C4-debeyonder-com.md"},
+    17:{cluster:"C5", file:"readme/C5-debeyonder-ai.md"},18:{cluster:"C5", file:"readme/C5-debeyonder-ai.md"},19:{cluster:"C5", file:"readme/C5-debeyonder-ai.md"},20:{cluster:"C5", file:"readme/C5-debeyonder-ai.md"},
+    21:{cluster:"C6", file:"readme/C6-portal-nodes.md"},22:{cluster:"C6", file:"readme/C6-portal-nodes.md"},23:{cluster:"C6", file:"readme/C6-portal-nodes.md"},24:{cluster:"C6", file:"readme/C6-portal-nodes.md"},
+    25:{cluster:"C7", file:"readme/C7-audit-z3ro.md"},26:{cluster:"C7", file:"readme/C7-audit-z3ro.md"},27:{cluster:"C7", file:"readme/C7-audit-z3ro.md"},28:{cluster:"C7", file:"readme/C7-audit-z3ro.md"},
+    29:{cluster:"C8", file:"readme/C8-alphabet-engine.md"},30:{cluster:"C8", file:"readme/C8-alphabet-engine.md"},31:{cluster:"C8", file:"readme/C8-alphabet-engine.md"},32:{cluster:"C8", file:"readme/C8-alphabet-engine.md"},
+    33:{cluster:"C9", file:"readme/C9-handbook-operatie.md"},34:{cluster:"C9", file:"readme/C9-handbook-operatie.md"},35:{cluster:"C9", file:"readme/C9-handbook-operatie.md"},36:{cluster:"C9", file:"readme/C9-handbook-operatie.md"}
 };
-
 
 // ----------------------
 //   CORE FUNCTIES (VOLLEDIG GEIMPLEMENTEERD)
@@ -187,3 +187,4 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 });
+
