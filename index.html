@@ -1,64 +1,29 @@
-from pathlib import Path
-import zipfile
-import shutil
-
-# Confirmed working uploaded files
-engine_js_path = Path("/mnt/data/engine.js")
-status_json_path = Path("/mnt/data/status.json")
-style_css_path = Path("/mnt/data/morphic_style.css")
-
-# Output structure
-base_dir = Path("/mnt/data/morphic_final_v243")
-base_dir.mkdir(parents=True, exist_ok=True)
-
-# Correct and complete HTML content for index.html
-index_html = """
 <!DOCTYPE html>
 <html lang="nl">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>AiCelium Portal Engine · Morphic Layer v2.4.3</title>
+  <title>Morphic Portal · AiCelium v2.4.3</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <header>
+  <header id="general-bar">
     <h1>AiCelium Portal Engine · Morphic Layer v2.4.3</h1>
-    <p id="core-status">Kernstatus: STANDBY</p>
+    <div class="status">Kernstatus: <span id="core-status">STANDBY</span></div>
+    <input id="axioma-input" placeholder="Typ je puls (bv. z3ro, morph)" />
   </header>
 
   <main>
     <section id="grid"></section>
-    <section id="morphic-view" class="hidden"></section>
-    <aside id="synapse-content">Synapse-sectie actief</aside>
+    <section id="morphic-view" class="hidden">
+        </section>
   </main>
 
-  <footer>
-    <input type="text" id="axioma-input" placeholder="Typ je puls (bv. z3ro, morph)" onchange="handleAxiomaUnlock(this.value)" />
-    <div id="audit-feed"></div>
-  </footer>
+  <aside>
+    <h3>Audit Interpretatie (C9)</h3>
+    <ul id="audit-feed"></ul>
+  </aside>
 
   <script src="engine.js"></script>
 </body>
 </html>
-"""
-
-# Write index.html
-index_path = base_dir / "index.html"
-index_path.write_text(index_html.strip(), encoding="utf-8")
-
-# Copy other files if they exist
-if engine_js_path.exists():
-    shutil.copy(engine_js_path, base_dir / "engine.js")
-if status_json_path.exists():
-    shutil.copy(status_json_path, base_dir / "status.json")
-if style_css_path.exists():
-    shutil.copy(style_css_path, base_dir / "style.css")
-
-# Create zip archive
-zip_path = Path("/mnt/data/morphic_v2.4.3_FINAL_OK.zip")
-with zipfile.ZipFile(zip_path, "w") as zipf:
-    for file in base_dir.iterdir():
-        zipf.write(file, arcname=f"morphic/{file.name}")
-
-zip_path.name
