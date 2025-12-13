@@ -1,0 +1,41 @@
+body {
+  font-family: monospace;
+  background: #0f172a;
+  color: #e2e8f0;
+  padding: 2rem;
+}
+#grid {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 8px;
+}
+.glyph-cell {
+  aspect-ratio: 1 / 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #38bdf8;
+  background: #0e7490;
+  color: #fff;
+  font-weight: bold;
+  cursor: pointer;
+  text-align: center;
+}
+.hidden {
+  display: none;
+}
+#axioma-input {
+  padding: 0.5rem;
+  margin-top: 1rem;
+  font-size: 1rem;
+}
+ul#audit-feed {
+  margin-top: 2rem;
+  list-style: none;
+  padding: 0;
+}
+#audit-feed li {
+  padding: 4px;
+  font-size: 0.9rem;
+  border-bottom: 1px solid #334155;
+}
