@@ -1,25 +1,169 @@
-/* In style.css (Vervang de relevante secties) */
+/* ----------------------------------------------------------------
+   Morphic Engine Core Styling (style.css)
+   Basisstijlen voor console, grid en audit feedback.
+---------------------------------------------------------------- */
+
+/* 🔑 Uw Aangeleverde Basis Stijlen */
+body {
+    background: #0e1116; [cite_start]/* [cite: 9] */
+    color: #fff; [cite_start]/* [cite: 9] */
+    font-family: Segoe UI, Arial; [cite_start]/* [cite: 9] */
+    margin: 40px; [cite_start]/* [cite: 9] */
+}
+.badge {
+    padding: 6px 14px; [cite_start]/* [cite: 9] */
+    border-radius: 6px; [cite_start]/* [cite: 9] */
+    font-weight: 600; [cite_start]/* [cite: 9] */
+    margin-right: 9px; [cite_start]/* [cite: 9] */
+}
+.status-stable { background: #00c853; [cite_start]} /* [cite: 9] */
+.status-warning { background: #f6ae2d; [cite_start]} /* [cite: 9] */
+.status-critical { background: #d50000; [cite_start]} /* [cite: 9] */
+
+/* 🔑 MORPHIC CORE STYLING */
+
+/* Algemene layout containers */
+.morphic-header {
+    text-align: center;
+    padding-bottom: 20px;
+    border-bottom: 2px solid #334155;
+}
+
+.morphic-header h1 {
+    color: #00eaff;
+    font-family: monospace;
+    font-size: 1.5rem;
+    margin-bottom: 10px;
+}
+
+.status-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #ffcc00; /* Standaard status kleur */
+    font-family: monospace;
+    font-size: 0.9rem;
+}
+
+.morphic-main {
+    max-width: 900px;
+    margin: 20px auto;
+    padding: 20px;
+}
+
+/* Axioma Input Console */
+.input-console {
+    display: flex;
+    justify-content: center;
+    margin: 20px 0;
+}
+
+#axioma-input {
+    width: 70%;
+    padding: 10px;
+    border: 1px solid #00eaff;
+    background: #1e293b;
+    color: #00eaff;
+    font-family: monospace;
+    font-size: 1rem;
+    outline: none;
+    transition: border-color 0.3s;
+}
+
+#axioma-input:focus {
+    border-color: #ffcc00;
+}
+
+.input-console button {
+    padding: 10px 15px;
+    background: #00eaff;
+    color: #0e1116;
+    border: none;
+    font-weight: bold;
+    cursor: pointer;
+    margin-left: 10px;
+}
+
+/* Synapse Paneel (C8 Data) */
+.synapse-panel {
+    background: #1e293b;
+    padding: 15px;
+    margin-bottom: 20px;
+    border-left: 4px solid #00eaff;
+    font-family: monospace;
+    font-size: 0.9rem;
+    line-height: 1.4;
+    overflow-x: auto;
+}
+
+#synapse-content {
+    white-space: pre-wrap;
+    color: #f8fafc;
+}
+
+/* Grid View */
+.grid-view-container {
+    padding: 20px 0;
+}
 
 #grid {
-  display: grid;
-  grid-template-columns: repeat(6, 1fr); /* Blijft 6 kolommen */
-  gap: 4px; /* Verklein de afstand tussen blokken */
-  max-width: 500px; /* Maak de totale breedte iets smaller */
-  margin: 20px auto;
+    display: grid;
+    grid-template-columns: repeat(6, 1fr); /* 6x6 Matrix */
+    gap: 5px;
 }
 
 .glyph-cell {
-  aspect-ratio: 1 / 1; 
-  display: flex;
-  flex-direction: column; /* Zorgt dat C1 en 1 onder elkaar staan */
-  align-items: center;
-  justify-content: center;
-  border: 1px solid #38bdf8;
-  background: #0e7490;
-  color: #fff;
-  font-weight: bold;
-  cursor: pointer;
-  text-align: center;
-  font-size: 8px; /* Maak het lettertype nog kleiner */
-  padding: 2px; /* Verklein de interne ruimte */
+    background: #334155;
+    border: 1px solid #1e293b;
+    padding: 10px;
+    text-align: center;
+    font-size: 0.75rem;
+    cursor: pointer;
+    transition: background 0.2s, border-color 0.2s;
+    color: #f8fafc;
+    font-family: monospace;
+}
+
+.glyph-cell:hover {
+    background: #475569;
+    border-color: #00eaff;
+}
+
+/* Morphic View Styling (Grid-37) */
+#morphic-view {
+    padding: 20px;
+    border: 2px dashed #00eaff;
+    text-align: center;
+    color: #00eaff;
+}
+
+/* Audit Interpretatie (C9) */
+.audit-aside {
+    background: #1e293b;
+    padding: 15px;
+    max-width: 900px;
+    margin: 0px auto 40px auto;
+    border-top: 1px solid #334155;
+}
+
+.audit-aside h3 {
+    color: #ffcc00;
+    margin-bottom: 10px;
+    font-family: monospace;
+    font-size: 1rem;
+}
+
+#audit-feed {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    font-family: monospace;
+    font-size: 0.8rem;
+    line-height: 1.5;
+    min-height: 80px;
+}
+
+/* Helper Class */
+.hidden {
+    display: none !important;
 }
