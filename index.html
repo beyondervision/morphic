@@ -2,7 +2,7 @@ from pathlib import Path
 import zipfile
 import shutil
 
-# Paths to confirmed working uploaded files
+# Confirmed working uploaded files
 engine_js_path = Path("/mnt/data/engine.js")
 status_json_path = Path("/mnt/data/status.json")
 style_css_path = Path("/mnt/data/morphic_style.css")
@@ -11,7 +11,7 @@ style_css_path = Path("/mnt/data/morphic_style.css")
 base_dir = Path("/mnt/data/morphic_final_v243")
 base_dir.mkdir(parents=True, exist_ok=True)
 
-# Correct and complete HTML content
+# Correct and complete HTML content for index.html
 index_html = """
 <!DOCTYPE html>
 <html lang="nl">
