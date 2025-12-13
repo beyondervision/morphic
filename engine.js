@@ -7,8 +7,8 @@
 //   Globale Variabelen & Constanten
 // ----------------------
 let isFieldActive = false;
-let telemetryInterval = null; // Niet gebruikt, maar behouden voor toekomstige telemetrie
-let currentStabilityFactor = 1.0; // Niet gebruikt, maar behouden voor toekomstige stabiliteit
+let telemetryInterval = null; 
+let currentStabilityFactor = 1.0; 
 const morphicState = { morphic_status: "BASE_STATIC" };
 
 const CANONIEKE_CODE = "z3ro";
@@ -18,12 +18,11 @@ const ENGINE_CONFIG = {
 };
 const SVG_GRID_37 = `<div style="color:#00eaff;"><h2>Grid‑37 Resonantieveld</h2><p>0/37 – Supralocatie • AiCelium Architectuur</p></div>`;
 
-// 🔑 ESSENTIEEL: FIELD_MAP (DEFINITIEF GESYNCHRONISEERD)
+// 🔑 ESSENTIEEL: FIELD_MAP (DEFINITIEF GESYNCHRONISEERD EN COMPLEET)
 const FIELD_MAP = {
     1:{cluster:"C1", file:"readme/C1-identiteit.md"},2:{cluster:"C1", file:"readme/C1-identiteit.md"},3:{cluster:"C1", file:"readme/C1-identiteit.md"},4:{cluster:"C1", file:"readme/C1-identiteit.md"},
     5:{cluster:"C2", file:"readme/C2-academy.md"},6:{cluster:"C2", file:"readme/C2-academy.md"},7:{cluster:"C2", file:"readme/C2-academy.md"},8:{cluster:"C2", file:"readme/C2-academy.md"},
     9:{cluster:"C3", file:"readme/C3-telemetry.md"},10:{cluster:"C3", file:"readme/C3-telemetry.md"},11:{cluster:"C3", file:"readme/C3-telemetry.md"},12:{cluster:"C3", file:"readme/C3-telemetry.md"},
-    // C4, C5, C6, C7, C8, C9 zijn nu gefixt naar de geüploade namen
     13:{cluster:"C4", file:"readme/C4-debeyonder-com.md"},14:{cluster:"C4", file:"readme/C4-debeyonder-com.md"},15:{cluster:"C4", file:"readme/C4-debeyonder-com.md"},16:{cluster:"C4", file:"readme/C4-debeyonder-com.md"},
     17:{cluster:"C5", file:"readme/C5-debeyonder-ai.md"},18:{cluster:"C5", file:"readme/C5-debeyonder-ai.md"},19:{cluster:"C5", file:"readme/C5-debeyonder-ai.md"},20:{cluster:"C5", file:"readme/C5-debeyonder-ai.md"},
     21:{cluster:"C6", file:"readme/C6-portal-nodes.md"},22:{cluster:"C6", file:"readme/C6-portal-nodes.md"},23:{cluster:"C6", file:"readme/C6-portal-nodes.md"},24:{cluster:"C6", file:"readme/C6-portal-nodes.md"},
@@ -31,6 +30,7 @@ const FIELD_MAP = {
     29:{cluster:"C8", file:"readme/C8-alphabet-engine.md"},30:{cluster:"C8", file:"readme/C8-alphabet-engine.md"},31:{cluster:"C8", file:"readme/C8-alphabet-engine.md"},32:{cluster:"C8", file:"readme/C8-alphabet-engine.md"},
     33:{cluster:"C9", file:"readme/C9-handbook-operatie.md"},34:{cluster:"C9", file:"readme/C9-handbook-operatie.md"},35:{cluster:"C9", file:"readme/C9-handbook-operatie.md"},36:{cluster:"C9", file:"readme/C9-handbook-operatie.md"}
 };
+
 
 // ----------------------
 //   CORE FUNCTIES (VOLLEDIG GEIMPLEMENTEERD)
@@ -68,7 +68,7 @@ function renderGrid() {
     }
 }
 
-// 🔑 C8 DATAKOPPELING MET ASYNCHRONE FETCH (FINALE FIX)
+// 🔑 C8 DATAKOPPELING MET ASYNCHRONE FETCH (FINALE VERSIE)
 async function handleCellClick(i) {
     if (!isFieldActive) {
         logMessage("SYSTEM", "Veld is GELOCKT. Gebruik canonieke code.");
@@ -87,6 +87,7 @@ async function handleCellClick(i) {
             const response = await fetch(file);
             
             if (!response.ok) {
+                // Foutcode 404 is nu opgelost door de FIELD_MAP fix
                 throw new Error(`Foutcode: ${response.status} - Controleer of ${file} bestaat op de server.`);
             }
 
@@ -187,4 +188,3 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 });
-
