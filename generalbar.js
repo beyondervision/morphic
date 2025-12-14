@@ -13,7 +13,7 @@ class GeneralBar {
     constructor() {
         this.statusElement = document.getElementById("core-status");
         this.assistentenOutput = document.getElementById("assistenten-output");
-        this.assistentenStatus = ASSISTENTEN;
+        this.assistentenStatus = ASSISTENTEN; // Het status object is hier gedefinieerd
         this.renderAssistenten();
         this.log("GBC", "General Bar Controller geïnitialiseerd.");
     }
@@ -39,12 +39,14 @@ class GeneralBar {
             this.statusElement.textContent = newStatus;
         }
 
+        // Z3RO activatie bij RESONANT status
         if (newStatus.includes("RESONANT")) {
             if (this.assistentenStatus.Z3RO.status !== "ONLINE") {
                 this.assistentenStatus.Z3RO.status = "ONLINE";
                 this.log("GBC", "Z3RO geactiveerd door Kernresonantie.");
             }
         } else {
+            // Z3RO de-activatie bij niet-RESONANT status
             this.assistentenStatus.Z3RO.status = "OFFLINE";
         }
         
@@ -60,11 +62,12 @@ class GeneralBar {
     }
     
     log(source, message) {
+        // Maakt gebruik van de logMessage functie uit engine.js
         if (typeof logMessage === 'function') {
             logMessage(source, message);
         }
     }
 }
 
-// Global Instantie
+// Global Instantie (Belangrijk: maakt this.assistentenStatus toegankelijk via GBC.assistentenStatus)
 const GBC = new GeneralBar();
