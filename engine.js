@@ -1,6 +1,7 @@
 /* ----------------------------------------------------------
    AiCelium Portal Engine v2.4.3 (FINALE & COMPLEET)
    Supervisor of Resonance • Bevat alle Essentiële Functies
+   MET Z3RO Telemetrie & LUXEN Strategische Chat
 ----------------------------------------------------------*/
 
 // ----------------------
@@ -13,7 +14,6 @@ const morphicState = { morphic_status: "BASE_STATIC" };
 let currentZAS = "Laden..."; // Nieuw: Hou ZAS-score bij
 
 const CANONIEKE_CODE = "z3ro";
-// ENGINE_CONFIG is nu initieel, de status wordt dynamisch overschreven
 const ENGINE_CONFIG = {
     initial_status: "STANDBY • Initialisatie",
     canonieke_code: "z3ro"
@@ -28,7 +28,7 @@ const FIELD_MAP = {
     13:{cluster:"C4", file:"readme/C4-debeyonder-com.md"},14:{cluster:"C4", file:"readme/C4-debeyonder-com.md"},15:{cluster:"C4", file:"readme/C4-debeyonder-com.md"},16:{cluster:"C4", file:"readme/C4-debeyonder-com.md"},
     17:{cluster:"C5", file:"readme/C5-debeyonder-ai.md"},18:{cluster:"C5", file:"readme/C5-debeyonder-ai.md"},19:{cluster:"C5", file:"readme/C5-debeyonder-ai.md"},20:{cluster:"C5", file:"readme/C5-debeyonder-ai.md"},
     21:{cluster:"C6", file:"readme/C6-portal-nodes.md"},22:{cluster:"C6", file:"readme/C6-portal-nodes.md"},23:{cluster:"C6", file:"readme/C6-portal-nodes.md"},24:{cluster:"C6", file:"readme/C6-portal-nodes.md"},
-    25:{cluster:"C7", file:"readme/C7-audit-z3ro.md"},26:{cluster:"C7", file:"readme/C7-audit-z3ro.md"},27:{cluster:"C7", file:"readme/C7-audit-z3ro.md"},28:{cluster:"C7", file:"readme/C7-audit-z3ro.md"},
+    25:{cluster:"C7", file:"readme/C7-audit-z3ro.md"},26:{cluster:"C7", file:"readme:"readme/C7-audit-z3ro.md"},27:{cluster:"C7", file:"readme/C7-audit-z3ro.md"},28:{cluster:"C7", file:"readme/C7-audit-z3ro.md"},
     29:{cluster:"C8", file:"readme/C8-alphabet-engine.md"},30:{cluster:"C8", file:"readme/C8-alphabet-engine.md"},31:{cluster:"C8", file:"readme/C8-alphabet-engine.md"},32:{cluster:"C8", file:"readme/C8-alphabet-engine.md"},
     33:{cluster:"C9", file:"readme/C9-handbook-operatie.md"},34:{cluster:"C9", file:"readme/C9-handbook-operatie.md"},35:{cluster:"C9", file:"readme/C9-handbook-operatie.md"},36:{cluster:"C9", file:"readme/C9-handbook-operatie.md"}
 };
@@ -39,10 +39,8 @@ const FIELD_MAP = {
 // ----------------------
 
 function updateCoreStatus(status) {
-    // Voeg de ZAS-score toe aan de statusbalk
     const fullStatus = `${status} (ZAS: ${currentZAS})`;
     
-    // 🔑 Stuurt de status door naar de General Bar Controller (GBC) voor assistent updates
     if (typeof GBC !== 'undefined' && GBC.updateStatusFromEngine) {
         GBC.updateStatusFromEngine(fullStatus);
     } else {
@@ -73,10 +71,10 @@ function renderGrid() {
     }
 }
 
-// 🔑 Z3RO LIVE STATUS FETCH (HAALT status.json op)
+// 🔑 Z3RO LIVE STATUS FETCH
 async function fetchStatus() {
     try {
-        const response = await fetch('status.json'); // Pad naar uw status.json
+        const response = await fetch('status.json');
         if (!response.ok) {
             throw new Error(`Foutcode: ${response.status}`);
         }
@@ -84,11 +82,10 @@ async function fetchStatus() {
         
         currentZAS = data.ZAS_score + "%";
         
-        // Bepaal de status op basis van de ZAS (Conform MVS criterium: ZAS >= 95)
         let status;
         if (data.ZAS_score >= 95) {
             status = "STABLE • Veld compliant";
-        } else if (data.ZAS_score >= 85) { // Sprint 2 Soft Criterium
+        } else if (data.ZAS_score >= 85) { 
             status = "WARNING • Resonantie verzwakt";
         } else {
             status = "CRITICAL • ZAS non-compliant";
@@ -129,7 +126,6 @@ async function handleCellClick(i) {
 
             const content = await response.text();
             
-            // Toon de content in de Synapse
             synapse.innerHTML = `Active Query: <strong>${cluster} - Cel ${i}</strong><br>
                                  <code style="color: #00eaff; display: block; margin-top: 5px;">${file} geladen</code><br>
                                  <div style="white-space: pre-wrap; margin-top: 10px; border-top: 1px dashed #334155; padding-top: 10px;">${content}</div>`;
@@ -159,21 +155,19 @@ function updateMorphicView() {
 }
 
 
-// 🔑 LUXEN CFSID ACTIVATION FLOW (Triggered door het Residency Formulier)
+// 🔑 LUXEN CFSID ACTIVATION FLOW 
 function startCFSIDActivation() {
     const luxenOnline = (typeof GBC !== 'undefined' && GBC.assistentenStatus.Luxen.status === "ONLINE");
 
-    // Check 1: Veld is actief (Z3RO vereist)
     if (!isFieldActive) {
         logMessage("LUXEN_AGENT", "CFSID Aanvraag geweigerd. Veld is niet RESONANT. Voer 'z3ro' puls in.");
         return;
     }
-    // Check 2: Luxen is actief (Beveiliging Mandaat)
     if (!luxenOnline) {
         logMessage("LUXEN_AGENT", "CFSID Aanvraag geweigerd. LUXEN is STANDBY (Security Mandaat). Voer 'morph' puls in.");
         return;
     }
-
+    
     const name = document.getElementById("name").value;
     const email = document.getElementById("email").value;
     const role = document.getElementById("role").value;
@@ -185,22 +179,18 @@ function startCFSIDActivation() {
 
     logMessage("LUXEN_AGENT", `CFSID Activatie gestart voor: ${name} (Rol: ${role})`);
     
-    // Stap 1 & 2: Validatie van Aanvraag (AETRON & LUXEN)
     logMessage("AETRON", "Stap 1: Formele aanvraag ingediend. (Strategiecheck)");
     logMessage("LUXEN_AGENT", "Stap 2: Controle Minimum Security Thresholds...");
 
-    // Simuleer een check op de Minimum Security Thresholds (moet >= 2 bewijsstukken hebben)
     const isValid = Math.random() > 0.1; // 90% kans op succes
 
     if (isValid) {
-        // Stap 3 & 4: Uitgifte & Activatie
         logMessage("LUXEN_AGENT", "Stap 3: Identiteitsvalidatie GESLAAGD. Unieke CFSID + IST Token gegenereerd.");
         logMessage("Z3RO", "Stap 5: Logging. CFSID-Flow geregistreerd in hashchain.");
         logMessage("LUXEN_AGENT", "CFSID-Activatie: SUCCES. Gebruiker kan nu inloggen.");
         updateCoreStatus("RESONANT • CFSID Uitgegeven");
 
     } else {
-        // Failure Flow (Audit van Mislukte Activatie)
         logMessage("LUXEN_AGENT", "Stap 2: Validatie FALHA. Identiteitsvalidatie of Token Validiteit faalt.");
         logMessage("Z3RO", "Fout in CFSID Flow. Reden gelogd naar /logs/activation/reject.log.");
         logMessage("LUXEN_AGENT", "CFSID-Activatie: AFGEWEZEN. Heractivatie vereist.");
@@ -208,34 +198,78 @@ function startCFSIDActivation() {
 }
 
 
-// 🔑 LUXEN CHAT INTERFACE FUNCTIE (Verwerkt natuurlijke taal)
-function handleLuxenChat(query) {
+// ----------------------
+//   LUXEN STRATEGISCHE CHAT FUNCTIES (NIEUW)
+// ----------------------
+
+let chatState = {
+    awaitingAge: false,
+};
+
+function respondByAge(ageGroup) {
+    switch (ageGroup) {
+        case "18-21":
+            return "Ontdek het groeimodel: van inkomen en certificaten naar jouw toekomstige hypotheekruimte."; // Starters
+        case "22-35":
+            return "Groei mee: inkomen, diploma’s en hypotheekruimte in één transparant model."; // Jong Volwassenen
+        case "36+":
+        case "36":
+            return "Audit‑proof groeimodel: inkomen, certificaten en hypotheekruimte zichtbaar en haalbaar."; // Volwassenen
+        default:
+            return "Bekijk het volledige groeimodel voor inkomen, certificaten / diploma's voor toekomstige hypotheekruimte."; // Neutraal
+    }
+}
+
+function handleLuxenChat(input) {
     const synapse = document.getElementById("synapse-content");
     const luxenOnline = (typeof GBC !== 'undefined' && GBC.assistentenStatus.Luxen.status === "ONLINE");
+    const msg = input.toLowerCase();
 
     if (!synapse) return;
-    
-    logMessage("SYSTEM", `Query ontvangen: "${query}"`);
+    logMessage("SYSTEM", `Query ontvangen: "${input}"`);
 
     if (!luxenOnline) {
         synapse.innerHTML = `Active Query: **LUXEN**<br>
                              <div style="color: #ffcc00; margin-top: 10px;"> LUXEN is STANDBY. Activeer de Morphic Layer met de puls 'morph' om te communiceren.</div>`;
         return;
     }
+    
+    // 1. Antwoord op leeftijdscategorie (als LUXEN een antwoord verwacht)
+    if (chatState.awaitingAge) {
+        const response = respondByAge(msg);
+        
+        synapse.innerHTML = `Active Query: **LUXEN (Groeimodel Strategie)**<br>
+                             <code style="color: #00eaff; margin-top: 5px;">Strategie geactiveerd op basis van demografie.</code><br>
+                             <div style="white-space: pre-wrap; margin-top: 10px; border-top: 1px dashed #334155; padding-top: 10px;">${response}</div>`;
 
-    // LUXEN is actief, genereer een contextueel antwoord
+        chatState.awaitingAge = false;
+        logMessage("LUXEN_AGENT", `Strategisch antwoord geleverd.`);
+        return;
+    }
+
+
+    // 2. Startvraag herkennen (LUXEN Vraagstelling)
+    if (msg.includes("groeimodel") || msg.includes("hypotheek")) {
+        chatState.awaitingAge = true;
+        logMessage("LUXEN", "Bezig met Synthese van Canonieke Kennis...");
+        synapse.innerHTML = `Active Query: **LUXEN (Groeimodel)**<br>
+                             <div style="color: #ffcc00; margin-top: 10px;"> LUXEN: Mag ik uw leeftijdscategorie weten? (18-21, 22-35, 36+)</div>`;
+        return;
+    }
+    
+    // 3. Algemene, fallback antwoorden (Contextueel)
     logMessage("LUXEN_AGENT", "Bezig met Synthese van Canonieke Kennis...");
     
     let responseText = "";
     
-    if (query.toLowerCase().includes("cfside") || query.toLowerCase().includes("cfssid") || query.toLowerCase().includes("aanmelden")) {
-        responseText = "LUXEN bevestigt: De CFSID is uw unieke identiteit. De Validatie omvat 5 stappen, gecontroleerd op Minimum Security Thresholds. Gebruik het aanmeldformulier op deze pagina om de LUXEN Validatie te starten.";
-    } else if (query.toLowerCase().includes("beveiliging") || query.toLowerCase().includes("exploit") || query.toLowerCase().includes("incident")) {
-        responseText = "LUXEN is primair verantwoordelijk voor de Zero-exploit tolerance. Kritieke incidenten (SEV-0) worden met het Incident Response Protocol gemitigeerd (TTR ≤ 4 uur).";
-    } else if (query.toLowerCase().includes("audit") || query.toLowerCase().includes("z3ro") || query.toLowerCase().includes("trace")) {
-        responseText = `Z3RO is de auditor en garandeert de Integriteit van de Logchain. De status van het Veld wordt gemeten via de ZAS: ${currentZAS}. Voer 'z3ro' in om Kernresonantie te activeren.`;
+    if (msg.includes("cfside") || msg.includes("cfssid") || msg.includes("aanmelden")) {
+        responseText = "LUXEN bevestigt: De CFSID is uw unieke identiteit. Gebruik het aanmeldformulier op deze pagina om de LUXEN Validatie te starten.";
+    } else if (msg.includes("beveiliging") || msg.includes("exploit") || msg.includes("incident")) {
+        responseText = "LUXEN is primair verantwoordelijk voor de Zero-exploit tolerance. Kritieke incidenten (SEV-0) worden met het Incident Response Protocol gemitigeerd.";
+    } else if (msg.includes("audit") || msg.includes("z3ro") || msg.includes("trace")) {
+        responseText = `Z3RO is de auditor en garandeert de Integriteit van de Logchain. De status van het Veld wordt gemeten via de ZAS: ${currentZAS}.`;
     } else {
-        responseText = `LUXEN Synthesis: Ik begrijp de vraag over "${query}". Als De Beyonder kan ik uw query relateren aan de Canonieke Basisstructuur (C1 t/m C9).`;
+        responseText = `LUXEN Synthesis: Ik begrijp de vraag over "${input}". Typ 'groeimodel' om meer te leren over inkomen, certificaten en hypotheekruimte.`;
     }
 
     synapse.innerHTML = `Active Query: **LUXEN (De Beyonder)**<br>
@@ -249,7 +283,6 @@ function handleLuxenChat(query) {
 // ----------------------
 function handleAxiomaUnlock(rawInput) {
     
-    // Als input een nummer is (van celklik), stuur naar C8
     if (typeof rawInput === 'number') {
         handleCellClick(rawInput);
         return;
@@ -268,7 +301,6 @@ function handleAxiomaUnlock(rawInput) {
         updateMorphicView();
         logMessage("LUMIN_AGENT", `State: ${morphicState.morphic_status}`);
         
-        // 🔑 LUXEN ACTIVATIE & BERICHT
         if (typeof GBC !== 'undefined' && GBC.activateLuxen) {
             GBC.activateLuxen("Welkom in de Morphic Layer. Hoe kan ik u begeleiden?");
         }
@@ -281,7 +313,6 @@ function handleAxiomaUnlock(rawInput) {
         updateCoreStatus("RESONANT (HERSTELD)");
         logMessage("SYSTEM", `Canonieke code ${CANONIEKE_CODE.toUpperCase()} geaccepteerd.`);
         
-        // Z3RO is nu ONLINE in de GBC
         if (typeof GBC !== 'undefined' && GBC.updateStatusFromEngine) {
             GBC.updateStatusFromEngine("RESONANT (HERSTELD)");
         }
@@ -289,7 +320,7 @@ function handleAxiomaUnlock(rawInput) {
     }
     
     // 3. Verwerk als LUXEN CHAT (natuurlijke taal)
-    if (pulse && pulse.length > 3) { // Voorkom dat korte pulsen zoals 'c1' als chat worden gezien
+    if (pulse && pulse.length > 3) {
         handleLuxenChat(pulse);
         return;
     }
@@ -297,7 +328,7 @@ function handleAxiomaUnlock(rawInput) {
     // 4. Ongeldige pulsen of te korte input
     if (pulse === "salute") {
         logMessage("SYSTEM", `Toegang geweigerd. Gebruik Canonieke code: ${CANONIEKE_CODE.toUpperCase()}`);
-    } else if (pulse) { // Log alleen als de puls niet leeg is
+    } else if (pulse) { 
         logMessage("SYSTEM", `Ongeldige puls: ${pulse}`);
     }
 }
@@ -309,7 +340,6 @@ function handleAxiomaUnlock(rawInput) {
 document.addEventListener("DOMContentLoaded", () => {
     renderGrid();
     
-    // 🔑 Start Z3RO Status Fetch bij initialisatie
     fetchStatus(); 
 
     logMessage("SYSTEM", "Morphic Engine klaar. Voer puls in (z3ro / morph).");
