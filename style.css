@@ -6,55 +6,81 @@ body {
     margin: 0;
     padding: 0;
 }
+
 h1, h2, h3 {
     color: #00eaff;
 }
+
 header, footer, section, aside, main {
     padding: 20px;
 }
+
 .status-bar span {
     display: inline-block;
     margin-left: 10px;
     font-weight: bold;
 }
+
 .morphic-console input, .morphic-console button {
     font-size: 16px;
     padding: 10px;
     margin-top: 10px;
 }
+
 .morphic-console input {
     width: 70%;
     background-color: #1a1a1a;
     color: #0ff;
     border: 1px solid #0ff;
 }
+
 .morphic-console button {
     background-color: #0ff;
     color: #000;
     border: none;
     cursor: pointer;
 }
+
 .audit-aside {
     background-color: #111;
     border-left: 4px solid #0ff;
     padding: 20px;
     margin-top: 20px;
 }
+
 #audit-feed {
     list-style: none;
     padding-left: 0;
 }
+
 #audit-feed li {
     background: #1a1a1a;
     padding: 10px;
     margin-bottom: 5px;
     border-left: 4px solid #0ff;
 }
+
 main {
     scroll-behavior: smooth;
 }
+
 .audit-top {
     background-color: #1a1a1a;
     padding: 20px;
     border-bottom: 2px solid #0ff;
+}
+
+/* Styling voor de abonnementsbutton */
+.btn-subscribe {
+    background-color: #00eaff;
+    color: black;
+    padding: 10px 20px;
+    border-radius: 5px;
+    text-decoration: none;
+    display: inline-block;
+    font-weight: bold;
+}
+
+.btn-subscribe:hover {
+    background-color: #0099cc;
 }
