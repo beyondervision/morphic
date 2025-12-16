@@ -17,6 +17,11 @@
         <p>Audit‑proof housing & digital work</p>
     </header>
 
+    <section id="morphic-control">
+        <input id="axioma-input" placeholder="Typ puls (z3ro / morph) of chat query" />
+        <button onclick="handleAxiomaUnlock(document.getElementById('axioma-input').value)">Puls</button>
+    </section>
+
     <main class="morphic-main">
         
         <section id="registration">
@@ -47,21 +52,15 @@
         <section id="housing-list">
             <h2>Beschikbare Woonruimtes (AETRON Strategy)</h2>
             <p>
-                Elke woning of kamer binnen dit platform is gekoppeld aan een leertraject van gemiddeld 73 uur per maand. Dit garandeert een basisinkomen van ± €1.000. Werk je meer, dan stijgt je woonbudget. Na 12–24 maanden bewijs kun je zelfs een PAC‑gevalideerde hypotheekaanvraag indienen.
+                Elke woning of kamer binnen dit platform is gekoppeld aan een leertraject van gemiddeld 73 uur per maand. Dit garandeert een basisinkomen van ± €1.000. Werk je meer, dan stijgt je woonbudget. Na 6 aaneengesloten maanden kun je zelfs een PAC‑gevalideerde hypotheekaanvraag indienen.
                 <strong>Gedetailleerde informatie is beschikbaar na activatie van een CFServices-abonnement.</strong>
             </p>
-            <a href="abonnement.html" class="btn-subscribe">Bekijk het volledige groeimodel voor inkomen, certificaten / diploma's voor toekomstige hypotheekruimte.</a>
         </section>
     </main>
 
     <aside id="audit-feedback" class="audit-aside">
         <h2>Audit Interpretatie (C9)</h2>
         <ul id="audit-feed"></ul>
-        
-        <div class="morphic-console">
-            <input id="axioma-input" placeholder="Typ puls (z3ro / morph) of chat query" />
-            <button onclick="handleAxiomaUnlock(document.getElementById('axioma-input').value)">Puls</button>
-        </div>
     </aside>
 
     <footer>
