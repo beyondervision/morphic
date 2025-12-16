@@ -60,6 +60,11 @@
         main {
             scroll-behavior: smooth;
         }
+        .audit-top {
+            background-color: #1a1a1a;
+            padding: 20px;
+            border-bottom: 2px solid #0ff;
+        }
     </style>
     <script src="generalbar.js"></script> 
 </head>
@@ -73,6 +78,16 @@
     </div>
     <p>Audit‑proof housing & digital work</p>
 </header>
+
+<div class="audit-top">
+    <h2>Audit Interpretatie (C9)</h2>
+    <p>[Z3RO] • Telemetrie geladen. Status: STABLE, ZAS: 98.7%</p>
+    <p>[SYSTEM] • Morphic Engine klaar. Voer puls in (z3ro / morph).</p>
+    <div class="morphic-console">
+        <input id="axioma-input-top" placeholder="Typ puls (z3ro / morph) of chat query" />
+        <button onclick="handleAxiomaUnlock(document.getElementById('axioma-input-top').value)">Puls</button>
+    </div>
+</div>
 
 <main class="morphic-main">
 
@@ -112,7 +127,6 @@
 </main>
 
 <aside id="audit-feedback" class="audit-aside">
-    <h2>Audit Interpretatie (C9)</h2>
     <ul id="audit-feed"></ul>
     <div class="morphic-console">
         <input id="axioma-input" placeholder="Typ puls (z3ro / morph) of chat query" />
