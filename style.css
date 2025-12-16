@@ -1,143 +1,60 @@
-<!DOCTYPE html>
-<html lang="nl">
-<head>
-    <meta charset="UTF-8">
-    <title>CFServices Residency Platform · AiCelium v2.4.3</title>
-    <link rel="stylesheet" href="style.css">
-    <style>
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            color: #f0f0f0;
-            background-color: #0a0a0a;
-            line-height: 1.6;
-            margin: 0;
-            padding: 0;
-        }
-        h1, h2, h3 {
-            color: #00eaff;
-        }
-        header, footer, section, aside, main {
-            padding: 20px;
-        }
-        .status-bar span {
-            display: inline-block;
-            margin-left: 10px;
-            font-weight: bold;
-        }
-        .morphic-console input, .morphic-console button {
-            font-size: 16px;
-            padding: 10px;
-            margin-top: 10px;
-        }
-        .morphic-console input {
-            width: 70%;
-            background-color: #1a1a1a;
-            color: #0ff;
-            border: 1px solid #0ff;
-        }
-        .morphic-console button {
-            background-color: #0ff;
-            color: #000;
-            border: none;
-            cursor: pointer;
-        }
-        .audit-aside {
-            background-color: #111;
-            border-left: 4px solid #0ff;
-            padding: 20px;
-            margin-top: 20px;
-        }
-        #audit-feed {
-            list-style: none;
-            padding-left: 0;
-        }
-        #audit-feed li {
-            background: #1a1a1a;
-            padding: 10px;
-            margin-bottom: 5px;
-            border-left: 4px solid #0ff;
-        }
-        main {
-            scroll-behavior: smooth;
-        }
-        .audit-top {
-            background-color: #1a1a1a;
-            padding: 20px;
-            border-bottom: 2px solid #0ff;
-        }
-    </style>
-    <script src="generalbar.js"></script> 
-</head>
-<body>
-
-<header id="general-bar">
-    <h1>CFServices Residency Platform</h1>
-    <div class="status-bar">
-        Kernstatus: <span id="core-status" style="color: #ffcc00;">STANDBY</span>
-        <span id="assistenten-output"></span>
-    </div>
-    <p>Audit‑proof housing & digital work</p>
-</header>
-
-<div class="audit-top">
-    <h2>Audit Interpretatie (C9)</h2>
-    <p>[Z3RO] • Telemetrie geladen. Status: STABLE, ZAS: 98.7%</p>
-    <p>[SYSTEM] • Morphic Engine klaar. Voer puls in (z3ro / morph).</p>
-    <div class="morphic-console">
-        <input id="axioma-input-top" placeholder="Typ puls (z3ro / morph) of chat query" />
-        <button onclick="handleAxiomaUnlock(document.getElementById('axioma-input-top').value)">Puls</button>
-    </div>
-</div>
-
-<main class="morphic-main">
-
-    <section id="registration">
-        <h2>Aanmelden voor CFSID (LUXEN Validatie)</h2>
-        <form id="resident-form">
-            <label>Naam:</label><input type="text" id="name" required><br>
-            <label>Email (intern domein):</label><input type="email" id="email" required><br>
-            <label>Rol:</label>
-            <select id="role">
-                <option value="bewoner">Bewoner</option>
-                <option value="verhuurder">Verhuurder</option>
-            </select><br>
-            <button type="button" onclick="startCFSIDActivation()">Verstuur Aanmelding (Valideer via LUXEN)</button>
-        </form>
-    </section>
-
-    <section id="synapse-info" class="synapse-panel">
-        <h2>Synapse (C8 Data Query)</h2>
-        <div id="synapse-content">Voer puls in en activeer cel voor Axioma's.</div>
-    </section>
-
-    <section id="grid-matrix">
-        <h2>Canonieke Architectuur (Grid)</h2>
-        <div id="grid"></div>
-        <div id="morphic-view" class="hidden"></div>
-    </section>
-
-    <section id="housing-list">
-        <h2>Beschikbare Woonruimtes (AETRON Strategy)</h2>
-        <p>
-            Elke woning of kamer binnen dit platform is gekoppeld aan een leertraject van gemiddeld 73 uur per maand. Dit garandeert een basisinkomen van ± €1.000. Werk je meer, dan stijgt je woonbudget. Na 12–24 maanden aaneengesloten inzet kun je zelfs een PAC‑gevalideerde hypotheekaanvraag indienen.
-            <strong>Gedetailleerde informatie is beschikbaar na activatie van een CFServices-abonnement.</strong>
-        </p>
-        <a href="abonnement.html" class="btn-subscribe">Activeer je abonnement</a>
-    </section>
-</main>
-
-<aside id="audit-feedback" class="audit-aside">
-    <ul id="audit-feed"></ul>
-    <div class="morphic-console">
-        <input id="axioma-input" placeholder="Typ puls (z3ro / morph) of chat query" />
-        <button onclick="handleAxiomaUnlock(document.getElementById('axioma-input').value)">Puls</button>
-    </div>
-</aside>
-
-<footer>
-    <p>CFServices © 2025 – PAC Validated</p>
-</footer>
-
-<script src="engine.js"></script>
-</body>
-</html>
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: #f0f0f0;
+    background-color: #0a0a0a;
+    line-height: 1.6;
+    margin: 0;
+    padding: 0;
+}
+h1, h2, h3 {
+    color: #00eaff;
+}
+header, footer, section, aside, main {
+    padding: 20px;
+}
+.status-bar span {
+    display: inline-block;
+    margin-left: 10px;
+    font-weight: bold;
+}
+.morphic-console input, .morphic-console button {
+    font-size: 16px;
+    padding: 10px;
+    margin-top: 10px;
+}
+.morphic-console input {
+    width: 70%;
+    background-color: #1a1a1a;
+    color: #0ff;
+    border: 1px solid #0ff;
+}
+.morphic-console button {
+    background-color: #0ff;
+    color: #000;
+    border: none;
+    cursor: pointer;
+}
+.audit-aside {
+    background-color: #111;
+    border-left: 4px solid #0ff;
+    padding: 20px;
+    margin-top: 20px;
+}
+#audit-feed {
+    list-style: none;
+    padding-left: 0;
+}
+#audit-feed li {
+    background: #1a1a1a;
+    padding: 10px;
+    margin-bottom: 5px;
+    border-left: 4px solid #0ff;
+}
+main {
+    scroll-behavior: smooth;
+}
+.audit-top {
+    background-color: #1a1a1a;
+    padding: 20px;
+    border-bottom: 2px solid #0ff;
+}
